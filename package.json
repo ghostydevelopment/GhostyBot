@@ -1,0 +1,26 @@
+{
+  "name": "tick",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "clean": "del /s /q build",
+    "build": "tsc --build",
+    "start": "npm run clean && npm run build && node build/index.js",
+    "startNoClean": "npm run build && node build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghostydevelopment/Ghosty.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ghostydevelopment/Ghosty/issues"
+  },
+  "homepage": "https://github.com/ghostydevelopment/Ghosty#readme",
+  "description": "",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "glob": "^11.0.0"
+  }
+}
