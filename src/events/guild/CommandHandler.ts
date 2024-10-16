@@ -31,6 +31,19 @@ export default class CommandHandler extends Event {
         }) && this.client.commands.delete(interaction.commandName)
       );
 
+    if (
+      command.dev &&
+      !this.client.config.developerUserIds.includes(interaction.user.id)
+    )
+      return interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor("Red")
+            .setDescription(`❌ This command is dev only.`),
+        ],
+        ephemeral: true,
+      });
+
     const { cooldowns } = this.client;
     if (!cooldowns.has(command.name))
       cooldowns.set(command.name, new Collection());

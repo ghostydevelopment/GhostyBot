@@ -6,7 +6,9 @@
     "clean": "del /s /q build",
     "build": "tsc --build",
     "start": "npm run clean && npm run build && node build/index.js",
-    "startNoClean": "npm run build && node build/index.js"
+    "startNoClean": "npm run build && node build/index.js",
+    "devStart": "npm run clean && npm run build && node build/index.js --development",
+    "devstartNoClean": "npm run build && node build/index.js --development"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
   "description": "",
   "dependencies": {
     "discord.js": "^14.16.3",
-    "glob": "^11.0.0"
+    "glob": "^11.0.0",
+    "mongoose": "^8.7.1"
   }
 }

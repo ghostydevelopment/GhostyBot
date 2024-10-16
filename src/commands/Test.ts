@@ -13,6 +13,7 @@ export default class TestC extends Command {
       dm_permission: false,
       cooldown: 3,
       options: [],
+      dev: false,
     });
   }
 

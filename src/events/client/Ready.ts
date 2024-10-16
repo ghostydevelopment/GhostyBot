@@ -15,29 +15,38 @@ export default class Ready extends Event {
   async Execute() {
     console.log(`${this.client.user?.tag} is now online.`);
 
-    const commands: object[] = this.GetJson(this.client.commands);
-
+    const clientId = this.client.developmentMode
+      ? this.client.config.devDiscordClientID
+      : this.client.config.discordClientID;
     const rest = new REST().setToken(this.client.config.token);
 
-    try {
-      const setCommands: any = await rest.put(
-        Routes.applicationGuildCommands(
-          this.client.config.discordClientID, // Changed from discordClientId to discordClientID
-          this.client.config.guildId
-        ),
+    if (!this.client.developmentMode) {
+      const globalCommands: any = await rest.put(
+        Routes.applicationCommands(clientId),
         {
-          body: commands,
+          body: this.GetJson(
+            this.client.commands.filter((command) => !command.dev)
+          ),
         }
       );
 
-      console.log(`Successfully set ${setCommands.length} commands.`);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error("Error setting commands:", error.message);
-      } else {
-        console.error("An unknown error occurred while setting commands");
-      }
+      console.log(
+        `Successfully loaded ${globalCommands.length} global commands.`
+      );
     }
+
+    const devCommands: any = await rest.put(
+      Routes.applicationGuildCommands(clientId, this.client.config.devGuildId),
+      {
+        body: this.GetJson(
+          this.client.commands.filter((command) => command.dev)
+        ),
+      }
+    );
+
+    console.log(
+      `Successfully loaded ${devCommands.length} developer commands.`
+    );
   }
 
   private GetJson(commands: Collection<string, Command>): object[] {
