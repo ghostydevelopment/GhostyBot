@@ -1,4 +1,4 @@
-import { Collection, Events, REST, Routes } from "discord.js";
+import { ActivityType, Collection, Events, REST, Routes } from "discord.js";
 import CustomClient from "../../base/classes/CustomClient";
 import Event from "../../base/classes/Event";
 import Command from "../../base/classes/Command";
@@ -14,6 +14,12 @@ export default class Ready extends Event {
 
   async Execute() {
     console.log(`${this.client.user?.tag} is now online.`);
+
+    // Set the bot's activity and status
+    this.client.user?.setPresence({
+      activities: [{ name: "over the server", type: ActivityType.Watching }],
+      status: "dnd",
+    });
 
     const clientId = this.client.developmentMode
       ? this.client.config.devDiscordClientID
