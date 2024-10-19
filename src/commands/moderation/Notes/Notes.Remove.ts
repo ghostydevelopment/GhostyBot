@@ -4,10 +4,10 @@ import {
   GuildMember,
   TextChannel,
 } from "discord.js";
-import CustomClient from "../../base/classes/CustomClient";
-import SubCommand from "../../base/classes/Subcommand";
-import GuildConfig from "../../base/schemas/GuildConfig";
-import UserNotes from "../../base/schemas/UserNotes";
+import CustomClient from "../../../base/classes/CustomClient";
+import SubCommand from "../../../base/classes/Subcommand";
+import GuildConfig from "../../../base/schemas/GuildConfig";
+import UserNotes from "../../../base/schemas/UserNotes";
 
 export default class NotesRemove extends SubCommand {
   constructor(client: CustomClient) {

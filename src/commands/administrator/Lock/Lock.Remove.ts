@@ -5,14 +5,14 @@ import {
   GuildChannel,
   PermissionsBitField,
 } from "discord.js";
-import CustomClient from "../../base/classes/CustomClient";
-import SubCommand from "../../base/classes/Subcommand";
-import GuildConfig from "../../base/schemas/GuildConfig";
+import CustomClient from "../../../base/classes/CustomClient";
+import SubCommand from "../../../base/classes/Subcommand";
+import GuildConfig from "../../../base/schemas/GuildConfig";
 
-export default class LockAdd extends SubCommand {
+export default class LockRemove extends SubCommand {
   constructor(client: CustomClient) {
     super(client, {
-      name: "lock.add",
+      name: "lock.remove",
     });
   }
 
@@ -32,14 +32,16 @@ export default class LockAdd extends SubCommand {
       }
 
       await channel.permissionOverwrites.edit(interaction.guild.id, {
-        SendMessages: false,
-        AddReactions: false,
+        SendMessages: null,
+        AddReactions: null,
       });
 
       const embed = new EmbedBuilder()
-        .setColor("Red")
-        .setTitle("Channel Locked")
-        .setDescription(`This channel has been locked by ${interaction.user}.`)
+        .setColor("Green")
+        .setTitle("Channel Unlocked")
+        .setDescription(
+          `This channel has been unlocked by ${interaction.user}.`
+        )
         .addFields({ name: "Reason", value: reason })
         .setTimestamp();
 
@@ -62,13 +64,13 @@ export default class LockAdd extends SubCommand {
           if (logChannel) {
             const logEmbed = new EmbedBuilder()
               .setColor("Yellow")
-              .setTitle("Channel Locked (Silent)")
+              .setTitle("Channel Unlocked (Silent)")
               .setDescription(
-                `${channel} has been locked by ${interaction.user}.`
+                `${channel} has been unlocked by ${interaction.user}.`
               )
               .addFields(
                 { name: "Reason", value: reason },
-                { name: "Locked Channel", value: channel.toString() }
+                { name: "Unlocked Channel", value: channel.toString() }
               )
               .setTimestamp();
             await logChannel.send({ embeds: [logEmbed] });
@@ -81,7 +83,9 @@ export default class LockAdd extends SubCommand {
           new EmbedBuilder()
             .setColor("Green")
             .setDescription(
-              `✅ Successfully locked ${channel}.${silent ? " (Silently)" : ""}`
+              `✅ Successfully unlocked ${channel}.${
+                silent ? " (Silently)" : ""
+              }`
             ),
         ],
       });
@@ -92,7 +96,7 @@ export default class LockAdd extends SubCommand {
           new EmbedBuilder()
             .setColor("Red")
             .setDescription(
-              "❌ There was an error while locking the channel. Please try again!"
+              "❌ There was an error while unlocking the channel. Please try again!"
             ),
         ],
       });

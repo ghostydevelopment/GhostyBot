@@ -3,9 +3,9 @@ import {
   EmbedBuilder,
   GuildMember,
 } from "discord.js";
-import CustomClient from "../../base/classes/CustomClient";
-import SubCommand from "../../base/classes/Subcommand";
-import UserNotes from "../../base/schemas/UserNotes";
+import CustomClient from "../../../base/classes/CustomClient";
+import SubCommand from "../../../base/classes/Subcommand";
+import UserNotes from "../../../base/schemas/UserNotes";
 
 export default class NotesList extends SubCommand {
   constructor(client: CustomClient) {

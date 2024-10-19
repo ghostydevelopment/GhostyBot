@@ -3,27 +3,26 @@ import {
   EmbedBuilder,
   GuildMember,
   GuildMemberRoleManager,
+  Role,
   TextChannel,
 } from "discord.js";
-import CustomClient from "../../base/classes/CustomClient";
-import SubCommand from "../../base/classes/Subcommand";
-import ms from "ms";
-import GuildConfig from "../../base/schemas/GuildConfig";
+import CustomClient from "../../../base/classes/CustomClient";
+import SubCommand from "../../../base/classes/Subcommand";
+import GuildConfig from "../../../base/schemas/GuildConfig";
 
-export default class TimeoutAdd extends SubCommand {
+export default class RolesAdd extends SubCommand {
   constructor(client: CustomClient) {
     super(client, {
-      name: "timeout.add",
+      name: "roles.add",
     });
   }
 
   async Execute(interaction: ChatInputCommandInteraction) {
     const target = interaction.options.getMember("target") as GuildMember;
-    const length = interaction.options.getString("length") || "5m";
+    const role = interaction.options.getRole("role") as Role;
     const reason =
       interaction.options.getString("reason") || "No reason provided";
     const silent = interaction.options.getBoolean("silent") || false;
-    const msLength = ms(length);
 
     const errorEmbed = new EmbedBuilder().setColor("Red");
 
@@ -33,33 +32,30 @@ export default class TimeoutAdd extends SubCommand {
         ephemeral: true,
       });
 
-    if (target.id == interaction.user.id)
+    if (!role)
       return interaction.reply({
-        embeds: [errorEmbed.setDescription(`❌ | You cannot timeout yourself`)],
+        embeds: [errorEmbed.setDescription(`❌ | Please provide a valid role`)],
         ephemeral: true,
       });
 
-    if (
-      target.roles.highest.position >=
-      (interaction.member?.roles as GuildMemberRoleManager).highest.position
-    )
+    if (target.roles.cache.has(role.id))
       return interaction.reply({
         embeds: [
           errorEmbed.setDescription(
-            `❌ | You cannot timeout a user with equal or higher roles.`
+            `❌ | ${target} already has the ${role} role`
           ),
         ],
         ephemeral: true,
       });
 
     if (
-      target.communicationDisabledUntil != null &&
-      target.communicationDisabledUntil > new Date()
+      role.position >=
+      (interaction.member?.roles as GuildMemberRoleManager).highest.position
     )
       return interaction.reply({
         embeds: [
           errorEmbed.setDescription(
-            `❌ | ${target} is already timed out until \`${target.communicationDisabledUntil.toLocaleString()}\``
+            `❌ | You cannot add a role that is equal to or higher than your highest role.`
           ),
         ],
         ephemeral: true,
@@ -76,31 +72,12 @@ export default class TimeoutAdd extends SubCommand {
       });
 
     try {
-      await target.send({
-        embeds: [
-          new EmbedBuilder()
-            .setColor("Blue")
-            .setDescription(
-              `
-                ⌛| You have been timed out in **${interaction.guild?.name}** by **${interaction.user}** for **${length}**
-                If you'd like to appeal this timeout, please contact the responsible moderator.
-
-                **Reason:** ${reason}
-                `
-            )
-            .setImage(interaction.guild?.iconURL()!),
-        ],
-      });
-    } catch {
-      // Do nothing
-    }
-    try {
-      await target.timeout(msLength, reason);
+      await target.roles.add(role, reason);
     } catch {
       return interaction.reply({
         embeds: [
           errorEmbed.setDescription(
-            `❌ | An error has occured, please contact Matty.`
+            `❌ | An error has occurred, please contact the bot developer.`
           ),
         ],
         ephemeral: true,
@@ -110,9 +87,9 @@ export default class TimeoutAdd extends SubCommand {
     interaction.reply({
       embeds: [
         new EmbedBuilder()
-          .setColor("Blue")
+          .setColor("Green")
           .setDescription(
-            `⌛ | Timed out ${target} - ${target.id} for ${length}`
+            `✅ | Added role ${role} to ${target} - ${target.id}`
           ),
       ],
       ephemeral: true,
@@ -121,25 +98,21 @@ export default class TimeoutAdd extends SubCommand {
     if (!silent) {
       const channel = interaction.channel;
       if (channel && "send" in channel) {
-        await channel
-          .send({
-            embeds: [
-              new EmbedBuilder()
-                .setColor("Blue")
-                .setAuthor({ name: `⌛ | Timeout - ${target.user.tag}` })
-                .setThumbnail(target.displayAvatarURL({ size: 64 }))
-                .setDescription(
-                  `
-                  **Reason:** ${reason}
-                  **Expires:** <t:${(Date.now() + msLength / 1000).toFixed(
-                    0
-                  )}:F>
+        await channel.send({
+          embeds: [
+            new EmbedBuilder()
+              .setColor("Green")
+              .setAuthor({ name: `✅ | Role Added - ${target.user.tag}` })
+              .setThumbnail(target.displayAvatarURL({ size: 64 }))
+              .setDescription(
                 `
-                )
-                .setTimestamp(),
-            ],
-          })
-          .then(async (msg) => await msg.react("⌛"));
+                **Role:** ${role}
+                **Reason:** ${reason}
+                `
+              )
+              .setTimestamp(),
+          ],
+        });
 
         const guild = await GuildConfig.findOne({
           guildId: interaction.guildId,
@@ -156,17 +129,14 @@ export default class TimeoutAdd extends SubCommand {
             await logChannel.send({
               embeds: [
                 new EmbedBuilder()
-                  .setColor("Blue")
+                  .setColor("Green")
                   .setThumbnail(target.displayAvatarURL({ size: 64 }))
-                  .setAuthor({ name: `⌛ | Timeout` })
+                  .setAuthor({ name: `✅ | Role Added` })
                   .setDescription(
                     `
-                  **Reason:** ${reason}
-                  **Length:** ${length}
-                  **Expires:** <t:${(Date.now() + msLength / 1000).toFixed(
-                    0
-                  )}:F>
-                      }
+                    **Member:** ${target} (${target.id})
+                    **Role:** ${role}
+                    **Reason:** ${reason}
                     `
                   )
                   .setTimestamp()

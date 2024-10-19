@@ -7,9 +7,9 @@ import {
   GuildMemberRoleManager,
   TextChannel,
 } from "discord.js";
-import CustomClient from "../../base/classes/CustomClient";
-import SubCommand from "../../base/classes/Subcommand";
-import GuildConfig from "../../base/schemas/GuildConfig";
+import CustomClient from "../../../base/classes/CustomClient";
+import SubCommand from "../../../base/classes/Subcommand";
+import GuildConfig from "../../../base/schemas/GuildConfig";
 
 export default class BanRemove extends SubCommand {
   constructor(client: CustomClient) {

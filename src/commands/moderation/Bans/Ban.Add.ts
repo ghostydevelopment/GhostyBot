@@ -6,9 +6,9 @@ import {
   PermissionsBitField,
 } from "discord.js";
 import ms from "ms";
-import CustomClient from "../../base/classes/CustomClient";
-import SubCommand from "../../base/classes/Subcommand";
-import GuildConfig from "../../base/schemas/GuildConfig";
+import CustomClient from "../../../base/classes/CustomClient";
+import SubCommand from "../../../base/classes/Subcommand";
+import GuildConfig from "../../../base/schemas/GuildConfig";
 
 export default class BanAdd extends SubCommand {
   constructor(client: CustomClient) {
