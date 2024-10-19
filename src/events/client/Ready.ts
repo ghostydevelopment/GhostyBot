@@ -15,11 +15,14 @@ export default class Ready extends Event {
   async Execute() {
     console.log(`${this.client.user?.tag} is now online.`);
 
+    // Set up single activity
+    const activity = {
+      name: "over the server",
+      type: ActivityType.Watching,
+    };
+
     // Set the bot's activity and status
-    this.client.user?.setPresence({
-      activities: [{ name: "over the server", type: ActivityType.Watching }],
-      status: "dnd",
-    });
+    await this.updatePresence(activity);
 
     const clientId = this.client.developmentMode
       ? this.client.config.devDiscordClientID
@@ -53,6 +56,13 @@ export default class Ready extends Event {
     console.log(
       `Successfully loaded ${devCommands.length} developer commands.`
     );
+  }
+
+  private async updatePresence(activity: { name: string; type: ActivityType }) {
+    this.client.user?.setPresence({
+      activities: [activity],
+      status: "dnd",
+    });
   }
 
   private GetJson(commands: Collection<string, Command>): object[] {
