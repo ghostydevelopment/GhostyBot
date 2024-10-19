@@ -15,7 +15,9 @@ export default class CustomClient extends Client implements ICustomClient {
   developmentMode: boolean;
 
   constructor() {
-    super({ intents: [GatewayIntentBits.Guilds] });
+    super({
+      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+    });
 
     this.config = require(`${process.cwd()}/data/config.json`);
     this.handler = new Handler(this);
