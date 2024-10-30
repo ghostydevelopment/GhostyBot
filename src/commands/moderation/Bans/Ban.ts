@@ -76,6 +76,11 @@ export default class Ban extends Command {
             },
           ],
         },
+        {
+          name: "all",
+          description: "List all banned users.",
+          type: ApplicationCommandOptionType.Subcommand,
+        },
       ],
     });
   }
