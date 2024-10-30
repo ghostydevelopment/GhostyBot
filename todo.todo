@@ -5,7 +5,6 @@
         : Upcoming features
         - Enhanced permissions for staff (e.g., /permission <1-8> <user>)
         - Verification system, either by CAPTCHA, or website link, or reaction.
-        - Anti-Raid System
 
         : Dev Features 
         - Maintaince command - When turned on, bot commands will shut off for every guild, status will change to "under maintaince".
