@@ -15,4 +15,3 @@ The best advanced Discord moderation bot, but extremely simple and user-friendly
    ```bash
    git clone https://github.com/ghostydevelopment/Nova
    cd Nova
-```
