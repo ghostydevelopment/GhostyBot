@@ -182,8 +182,6 @@ export default class MessageCreate extends Event {
       "zoophile",
     ];
     const wordRegex = new RegExp(badWords.join("|"), "gi");
-    const nicknameRegex = /[^a-zA-Z0-9 ]/g;
-    const urlNicknameRegex = /^https?:\/\//i;
 
     try {
       if (
@@ -206,22 +204,12 @@ export default class MessageCreate extends Event {
           message,
           "🚫 Prohibited language is not allowed in this channel!"
         );
-      } else if (
-        filterSettings &&
-        filterSettings.nicknames &&
-        (nicknameRegex.test(message.member?.nickname || message.author.username) ||
-        wordRegex.test(message.member?.nickname || message.author.username) ||
-        urlNicknameRegex.test(message.member?.nickname || message.author.username))
-      ) {
-        const newNickname = "ask for nickname";
-        await message.member?.setNickname(newNickname);
-        await this.notifyUserAndLog(
-          message,
-          `🚫 Nicknames with symbols, prohibited words, or URLs are not allowed! Changed nickname to: ${newNickname}`
-        );
       }
     } catch (error) {
-      console.error("Failed to delete message, change nickname, or send notification:", error);
+      console.error("Failed to delete message or send notification:", error);
+      if (message.channel instanceof TextChannel) {
+        await message.channel.send("🚫 I don't have permission to delete messages.");
+      }
     }
   }
 
@@ -266,9 +254,14 @@ export default class MessageCreate extends Event {
   async handleRaid(guild: any) {
     const channels = guild.channels.cache.filter((channel: any) => channel.type === ChannelType.GuildText);
     for (const [channelId, channel] of channels) {
-      await channel.permissionOverwrites.edit(guild.roles.everyone, {
-        SendMessages: false,
-      });
+      try {
+        await channel.permissionOverwrites.edit(guild.roles.everyone, {
+          SendMessages: false,
+        });
+      } catch (error) {
+        console.error("Failed to lock channel:", error);
+        await channel.send("🚫 I don't have permission to lock channels.");
+      }
     }
 
     const embed = new EmbedBuilder()
