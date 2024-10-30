@@ -44,18 +44,35 @@ export default class BackupStart extends SubCommand {
       await Promise.all(guild.roles.cache.filter(role => !role.managed).map(role => role.delete().catch(() => {})));
       await Promise.all(guild.channels.cache.map(channel => channel.delete().catch(() => {})));
 
-           // Restore roles
-      for (const roleName of backup.roles) {
+      // Restore roles in the correct order
+      const rolePositions = new Map();
+      for (const role of guild.roles.cache.values()) {
+        rolePositions.set(role.name, role.position);
+      }
+      const sortedRoles = backup.roles.sort((a, b) => rolePositions.get(a) - rolePositions.get(b));
+      for (const roleName of sortedRoles) {
         await guild.roles.create({ name: roleName }).catch(() => {});
       }
 
-      // Restore categories
-      for (const categoryName of backup.categories) {
+      // Restore categories in the correct order
+      const categoryPositions = new Map();
+      for (const category of guild.channels.cache.filter(channel => channel.type === ChannelType.GuildCategory).values()) {
+        categoryPositions.set(category.name, category.position);
+      }
+      const sortedCategories = backup.categories.sort((a, b) => categoryPositions.get(a) - categoryPositions.get(b));
+      for (const categoryName of sortedCategories) {
         await guild.channels.create({ name: categoryName, type: ChannelType.GuildCategory }).catch(() => {});
       }
 
-      // Restore channels
-      for (const channelName of backup.channels) {
+      // Restore channels in the correct order
+      const channelPositions = new Map();
+      for (const channel of guild.channels.cache.values()) {
+        if ('position' in channel) {
+          channelPositions.set(channel.name, channel.position);
+        }
+      }
+      const sortedChannels = backup.channels.sort((a, b) => (channelPositions.get(a) || 0) - (channelPositions.get(b) || 0));
+      for (const channelName of sortedChannels) {
         await guild.channels.create({ name: channelName, type: ChannelType.GuildText }).catch(() => {});
       }
 
