@@ -3,6 +3,7 @@ import {
   EmbedBuilder,
   GuildMember,
   Message,
+  PermissionFlagsBits,
 } from "discord.js";
 import CustomClient from "../../../base/classes/CustomClient";
 import SubCommand from "../../../base/classes/Subcommand";
@@ -16,8 +17,14 @@ export default class AfkSet extends SubCommand {
   }
 
   async Execute(interaction: ChatInputCommandInteraction) {
-    const reason = interaction.options.getString("reason") || "AFK";
     const member = interaction.member as GuildMember;
+
+    // Check if the user has the required permissions
+    if (!member.permissions.has(PermissionFlagsBits.SendMessages)) {
+      throw new Error("You do not have permission to set AFK status.");
+    }
+
+    const reason = interaction.options.getString("reason") || "AFK";
 
     // Set AFK status
     await UserAFKS.create({
@@ -29,7 +36,9 @@ export default class AfkSet extends SubCommand {
 
     const embed = new EmbedBuilder()
       .setColor("Blue")
-      .setDescription(`You are now AFK: ${reason}`)
+      .setDescription(
+        `<a:animatedcheck:1299178944481984522> You are now AFK: ${reason}`
+      )
       .setFooter({
         text: "I'll notify others when they mention you.",
       });
@@ -59,7 +68,7 @@ export default class AfkSet extends SubCommand {
         const afkEmbed = new EmbedBuilder()
           .setColor("Yellow")
           .setDescription(
-            `${member.user.username} is currently AFK: ${reason}`
+            `<:caution2:1299182360436146297> ${member.user.username} is currently AFK: ${reason}`
           );
 
         await message.reply({ embeds: [afkEmbed] });

@@ -1,0 +1,38 @@
+-- Nova
+    : Nova's todo list
+    -- The things I want to get done
+
+        : Upcoming features
+        - Enhanced permissions for staff (e.g., /permission <1-8> <user>)
+        - Verification system, either by CAPTCHA, or website link, or reaction.
+        - Anti-Raid System
+
+        : Dev Features 
+        - Maintaince command - When turned on, bot commands will shut off for every guild, status will change to "under maintaince".
+
+        : Feature I might add 
+        - AI Moderation
+        - Language system for bot localization 
+        - Backup server commands 
+        - Multi-Guild system
+        - Premium system 
+        - Custom commands 
+
+        : Bug Fixes 
+        - None
+
+        : Schema Updates & Fixes 
+        - Add a UserSchema and make it store userIds, permissions and maybe other stuff to avoid schema & db clutter
+        - Add UserPunishments which will store the UserWarns, mute n such
+
+        : Command & Embed & Event Updates/Changes
+        - Fix the init command for automoderation so when you press a automod button, the rest of the buttons don't disappear
+        - Fix backup start command to replace everything in the correct order
+        - Case numbers for moderation actions
+        - Improved logging 
+
+        : Dashboard 
+        - Create login page on main website that'll redirect to the dashboard
+        - Dashboard will make the bot 10x customizable
+    --/
+--/

@@ -16,7 +16,22 @@ export default class CustomClient extends Client implements ICustomClient {
 
   constructor() {
     super({
-      intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers],
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.GuildEmojisAndStickers,
+        GatewayIntentBits.GuildIntegrations,
+        GatewayIntentBits.GuildWebhooks,
+        GatewayIntentBits.GuildInvites,
+        GatewayIntentBits.GuildScheduledEvents,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.DirectMessageReactions,
+        GatewayIntentBits.DirectMessageTyping,
+      ],
     });
 
     this.config = require(`${process.cwd()}/data/config.json`);

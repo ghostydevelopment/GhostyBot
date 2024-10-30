@@ -15,14 +15,8 @@ export default class Ready extends Event {
   async Execute() {
     console.log(`${this.client.user?.tag} is now online.`);
 
-    // Set up single activity
-    const activity = {
-      name: "over the server",
-      type: ActivityType.Watching,
-    };
-
-    // Set the bot's activity and status
-    await this.updatePresence(activity);
+    // Set a static activity
+    this.setStaticActivity();
 
     const clientId = this.client.developmentMode
       ? this.client.config.devDiscordClientID
@@ -58,9 +52,16 @@ export default class Ready extends Event {
     );
   }
 
-  private async updatePresence(activity: { name: string; type: ActivityType }) {
+  private async setStaticActivity() {
+    const serverCount = this.client.guilds.cache.size;
     this.client.user?.setPresence({
-      activities: [activity],
+      activities: [
+        {
+          name: `Protecting ${serverCount} servers`,
+          //name: "Under Maintainance",
+          type: ActivityType.Custom,
+        },
+      ],
       status: "dnd",
     });
   }

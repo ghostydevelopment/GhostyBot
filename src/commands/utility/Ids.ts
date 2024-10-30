@@ -40,7 +40,9 @@ export default class Ids extends Command {
     const embed = new EmbedBuilder()
       .setColor("Blue")
       .setTitle("User ID")
-      .setDescription(`The ID of ${user.tag} is: \`${user.id}\``);
+      .setDescription(
+        `<:spaceship1:1299180094140715089> The ID of ${user.tag} is: \`${user.id}\``
+      );
 
     interaction.reply({
       embeds: [embed],

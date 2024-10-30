@@ -2,10 +2,8 @@ import {
   ApplicationCommandOptionType,
   ChannelType,
   ChatInputCommandInteraction,
-  Collection,
   EmbedBuilder,
   GuildMember,
-  Message,
   PermissionFlagsBits,
   TextChannel,
 } from "discord.js";
@@ -83,17 +81,12 @@ export default class Clear extends Command {
     });
 
     const filteredMessages = target
-      ? messages.filter((m) => m.author.id === target.id)
-      : messages;
+      ? messages.filter((m) => m.author.id === target.id).first(amount)
+      : messages.first(amount);
     let deleted = 0;
 
     try {
-      deleted = (
-        await channel.bulkDelete(
-          Array.from(filteredMessages.keys()).slice(0, amount),
-          true
-        )
-      ).size;
+      deleted = (await channel.bulkDelete(filteredMessages, true)).size;
     } catch (error) {
       return interaction.reply({
         embeds: [
@@ -110,8 +103,8 @@ export default class Clear extends Command {
         new EmbedBuilder()
           .setColor("Orange")
           .setDescription(
-            `**Deleted \`${deleted}\` messages${
-              target ? ` from ${target}` : ""
+            `<a:animatedcheck:1299178944481984522> **Deleted \`${deleted}\` messages${
+              target ? ` from ${target}**` : ""
             } in ${channel}`
           ),
       ],

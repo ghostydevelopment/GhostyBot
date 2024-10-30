@@ -104,12 +104,14 @@ export default class Slowmode extends Command {
       });
     }
 
+    const formattedRate = this.formatDuration(messageRate);
+
     await interaction.reply({
       embeds: [
         new EmbedBuilder()
           .setColor("Green")
           .setDescription(
-            `✅ | Successfully set the slowmode to ${messageRate} seconds.`
+            `✅| Successfully set the slowmode to ${formattedRate}.`
           ),
       ],
       ephemeral: true,
@@ -121,13 +123,17 @@ export default class Slowmode extends Command {
           embeds: [
             new EmbedBuilder()
               .setColor("Green")
-              .setAuthor({ name: `⏲️ | Slowmode in ${channel.name}` })
-              .setDescription(`Slowmode ${messageRate} seconds`)
+              .setAuthor({
+                name: `<:slowmode:1299180405982887996> | Slowmode in ${channel.name}`,
+              })
+              .setDescription(`Slowmode set to ${formattedRate}`)
               .setTimestamp()
               .setFooter({ text: `Channel ID: ${channel.id}` }),
           ],
         })
-        .then(async (msg) => await msg.react("⏲️"));
+        .then(
+          async (msg) => await msg.react("<:slowmode:1299180405982887996>")
+        );
     }
 
     const guild = await GuildConfig.findOne({ guildId: interaction.guildId });
@@ -147,7 +153,7 @@ export default class Slowmode extends Command {
               .setDescription(
                 `
                 **Channel:** ${channel}
-                **Slowmode:** ${messageRate} seconds
+                **Slowmode:** ${formattedRate}
                 **Moderator:** ${interaction.user}
                 **Reason:** ${reason}
               `
@@ -158,5 +164,15 @@ export default class Slowmode extends Command {
         });
       }
     }
+  }
+
+  formatDuration(seconds: number) {
+    if (seconds === 0) return "None";
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hours > 0 ? `${hours} hour(s) ` : ""}${
+      minutes > 0 ? `${minutes} minute(s) ` : ""
+    }${secs > 0 ? `${secs} second(s)` : ""}`.trim();
   }
 }

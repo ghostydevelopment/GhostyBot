@@ -64,14 +64,32 @@ export default class TicketsSetup extends SubCommand {
       }
 
       const ticketEmbed = new EmbedBuilder()
-        .setColor("Blue")
-        .setTitle("Create a Ticket")
-        .setDescription("Click the button below to create a new ticket.");
+        .setColor("#34eb4f") // Changed color to a more vibrant green for better visibility
+        .setTitle("🎟️ Need Assistance? Open a Support Ticket!")
+        .setDescription(
+          "Our dedicated support team is ready to assist you! Click the button below to open a new support ticket. A team member will be with you shortly."
+        )
+        .addFields([
+          {
+            name: "Quick Tips",
+            value:
+              "Check out our FAQ section for instant answers to common questions.",
+            inline: true,
+          },
+          {
+            name: "Emergency?",
+            value: "Mark your ticket as urgent after creation.",
+            inline: true,
+          },
+        ])
+        .setFooter({ text: "Your satisfaction is our priority!" })
+        .setTimestamp();
 
       const ticketButton = new ButtonBuilder()
         .setCustomId("create_ticket")
-        .setLabel("Create Ticket")
-        .setStyle(ButtonStyle.Primary);
+        .setLabel("📩 Create a Support Ticket")
+        .setStyle(ButtonStyle.Success) // Changed button style to Success for a more positive action color
+        .setEmoji("🔔"); // Added an emoji to the button for better visual engagement
 
       const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
         ticketButton
@@ -124,23 +142,49 @@ export default class TicketsSetup extends SubCommand {
 
             const closeButton = new ButtonBuilder()
               .setCustomId("close_ticket")
-              .setLabel("Close")
+              .setLabel("🔒 Close Ticket")
               .setStyle(ButtonStyle.Danger);
 
             const ticketRow =
               new ActionRowBuilder<ButtonBuilder>().addComponents(closeButton);
 
+            const ticketOpenEmbed = new EmbedBuilder()
+              .setColor("#00ff00")
+              .setTitle(`🎫 Support Ticket #${ticketCount}`)
+              .setDescription(
+                welcomeMessage ||
+                  "Welcome to your support ticket! Our team is here to assist you."
+              )
+              .addFields(
+                {
+                  name: "Ticket Owner",
+                  value: `<@${buttonInteraction.user.id}>`,
+                  inline: true,
+                },
+                {
+                  name: "Support Team",
+                  value: `<@&${supportRole.id}>`,
+                  inline: true,
+                },
+                {
+                  name: "Created At",
+                  value: `<t:${Math.floor(Date.now() / 1000)}:F>`,
+                  inline: false,
+                },
+                {
+                  name: "Next Steps",
+                  value:
+                    "Please describe your issue in detail. A member of our support team will be with you shortly.",
+                }
+              )
+              .setFooter({
+                text: "To close this ticket, click the button below",
+              })
+              .setTimestamp();
+
             await newChannel.send({
               content: `<@${buttonInteraction.user.id}> <@&${supportRole.id}>`,
-              embeds: [
-                new EmbedBuilder()
-                  .setColor("Blue")
-                  .setTitle(`Ticket #${ticketCount}`)
-                  .setDescription(
-                    welcomeMessage ||
-                      "Welcome to your ticket! Please describe your issue and a staff member will be with you shortly."
-                  ),
-              ],
+              embeds: [ticketOpenEmbed],
               components: [ticketRow],
             });
 
@@ -176,16 +220,66 @@ export default class TicketsSetup extends SubCommand {
                 guildTickets.transcriptChannel
               ) as TextChannel;
 
+            const transcriptEmbed = new EmbedBuilder()
+              .setColor("#ff9900")
+              .setTitle(`📜 Ticket Transcript: ${channel.name}`)
+              .setDescription("This ticket has been closed and archived.")
+              .addFields(
+                {
+                  name: "Closed By",
+                  value: `<@${closeInteraction.user.id}>`,
+                  inline: true,
+                },
+                {
+                  name: "Closed At",
+                  value: `<t:${Math.floor(Date.now() / 1000)}:F>`,
+                  inline: true,
+                },
+                {
+                  name: "Transcript",
+                  value: "The full conversation transcript is attached below.",
+                }
+              )
+              .setFooter({ text: "Ticket Support System" })
+              .setTimestamp();
+
             await transcriptChannel.send({
-              content: `Transcript for ${channel.name}`,
+              embeds: [transcriptEmbed],
               files: [transcript],
             });
 
+            const closingEmbed = new EmbedBuilder()
+              .setColor("#ff0000")
+              .setTitle("🔒 Ticket Closed")
+              .setDescription(
+                "This support ticket has been closed. A transcript has been saved for record-keeping purposes."
+              )
+              .addFields(
+                {
+                  name: "Closed By",
+                  value: `<@${closeInteraction.user.id}>`,
+                  inline: true,
+                },
+                {
+                  name: "Closed At",
+                  value: `<t:${Math.floor(Date.now() / 1000)}:F>`,
+                  inline: true,
+                },
+                {
+                  name: "Next Steps",
+                  value:
+                    "If you need further assistance, please open a new ticket.",
+                }
+              )
+              .setFooter({ text: "Thank you for using our support system" })
+              .setTimestamp();
+
             await closeInteraction.editReply({
-              content: "Ticket closed and transcript sent to logs channel.",
+              embeds: [closingEmbed],
             });
 
-            await channel.delete();
+            // Delay the channel deletion to allow the user to see the closing message
+            setTimeout(() => channel.delete(), 5000);
           } catch (error) {
             console.error(error);
             await closeInteraction.editReply({
@@ -196,25 +290,58 @@ export default class TicketsSetup extends SubCommand {
         }
       });
 
+      const setupSuccessEmbed = new EmbedBuilder()
+        .setColor("#00ff00")
+        .setTitle("✅ Ticket System Setup Complete")
+        .setDescription(
+          "The ticket support system has been successfully configured."
+        )
+        .addFields(
+          { name: "Category", value: `${category}`, inline: true },
+          { name: "Support Role", value: `${supportRole}`, inline: true },
+          {
+            name: "Transcript Channel",
+            value: `${transcriptChannel}`,
+            inline: true,
+          },
+          { name: "Ticket Channel", value: `${ticketChannel}`, inline: true },
+          {
+            name: "Next Steps",
+            value:
+              "Your ticket system is now active. Users can create tickets in the designated channel.",
+          }
+        )
+        .setFooter({ text: "Ticket system is ready to use" })
+        .setTimestamp();
+
       return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setColor("Green")
-            .setDescription(
-              `✅ Ticket system has been set up successfully!\n\nCategory: ${category}\nSupport Role: ${supportRole}\nTranscript Channel: ${transcriptChannel}\nTicket Channel: ${ticketChannel}`
-            ),
-        ],
+        embeds: [setupSuccessEmbed],
       });
     } catch (error) {
       console.error(error);
+      const errorEmbed = new EmbedBuilder()
+        .setColor("#ff0000")
+        .setTitle("❌ Setup Error")
+        .setDescription("An error occurred while setting up the ticket system.")
+        .addFields(
+          {
+            name: "Error Details",
+            value:
+              "There was an unexpected issue during the setup process. Please try again or contact the bot developer if the problem persists.",
+          },
+          {
+            name: "Troubleshooting",
+            value:
+              "Ensure that the bot has the necessary permissions in all channels involved in the ticket system.",
+          }
+        )
+        .setFooter({
+          text: "If issues persist, please report this to the bot developer",
+        })
+        .setTimestamp();
+
       return interaction.editReply({
-        embeds: [
-          new EmbedBuilder()
-            .setColor("Red")
-            .setDescription(
-              `❌ There was an error while setting up the ticket system. Please try again!`
-            ),
-        ],
+        embeds: [errorEmbed],
       });
     }
   }

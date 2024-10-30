@@ -53,7 +53,9 @@ export default class Invites extends Command {
 
       const embed = new EmbedBuilder()
         .setColor("Blue")
-        .setTitle(`Invites for ${targetUser.tag}`)
+        .setTitle(
+          `<:spaceship1:1299180094140715089> Invites for ${targetUser.tag}`
+        )
         .setThumbnail(targetUser.displayAvatarURL({ size: 64 }))
         .setDescription(`Total invites: **${totalInvites}**`)
         .setTimestamp();

@@ -50,6 +50,7 @@ export default class Botinfo extends Command {
           .map((p) => `${p}@${dependencies[p].replace(/^\^/, "")}`)
           .join(", ")}\`
             > **Uptime:** \`${ms(this.client.uptime!, { long: false })}\`
+            > **Servers:** \`${this.client.guilds.cache.size}\`
 
             __**System Info:**__
             > **Operating System:** \`${process.platform}\`

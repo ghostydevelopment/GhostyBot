@@ -45,18 +45,30 @@ export default class Audit extends Command {
       const auditLogs = await interaction.guild.fetchAuditLogs({ limit });
 
       const embed = new EmbedBuilder()
-        .setColor("Blue")
-        .setTitle(`Recent Audit Log Entries`)
+        .setColor("#4B0082")
+        .setTitle(`🔍 Audit Log Overview`)
         .setDescription(
-          auditLogs.entries
-            .map((entry) => {
-              const action = AuditLogEvent[entry.action];
-              return `**${action}** by ${entry.executor} - <t:${Math.floor(
-                entry.createdTimestamp / 1000
-              )}:R>`;
-            })
-            .join("\n")
+          `Here are the last ${limit} audit log entries for ${interaction.guild.name}.`
         )
+        .addFields(
+          auditLogs.entries.map((entry) => {
+            const action = AuditLogEvent[entry.action];
+            const timestamp = Math.floor(entry.createdTimestamp / 1000);
+            return {
+              name: `${this.getEmojiForAction(action)} ${action}`,
+              value: `**Executor:** ${entry.executor}\n**Target:** ${
+                entry.target
+              }\n**Reason:** ${
+                entry.reason || "No reason provided"
+              }\n**When:** <t:${timestamp}:F> (<t:${timestamp}:R>)`,
+              inline: false,
+            };
+          })
+        )
+        .setFooter({
+          text: `Requested by ${interaction.user.tag}`,
+          iconURL: interaction.user.displayAvatarURL(),
+        })
         .setTimestamp();
 
       await interaction.reply({ embeds: [embed], ephemeral: true });
@@ -67,5 +79,26 @@ export default class Audit extends Command {
         ephemeral: true,
       });
     }
+  }
+
+  private getEmojiForAction(action: string): string {
+    const emojiMap: { [key: string]: string } = {
+      MEMBER_KICK: "👢",
+      MEMBER_BAN_ADD: "🔨",
+      MEMBER_BAN_REMOVE: "🔓",
+      MEMBER_UPDATE: "📝",
+      MEMBER_ROLE_UPDATE: "🎭",
+      CHANNEL_CREATE: "➕",
+      CHANNEL_DELETE: "➖",
+      CHANNEL_UPDATE: "🔧",
+      ROLE_CREATE: "🆕",
+      ROLE_DELETE: "🗑️",
+      ROLE_UPDATE: "✏️",
+      MESSAGE_DELETE: "🗑️",
+      MESSAGE_BULK_DELETE: "🧹",
+      // Add more mappings as needed
+    };
+
+    return emojiMap[action] || "📋";
   }
 }
