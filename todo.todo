@@ -5,9 +5,13 @@
         : Upcoming features
         - Enhanced permissions for staff (e.g., /permission <1-8> <user>)
         - Verification system, either by CAPTCHA, or website link, or reaction.
+        - Report setup command & user report command -- sends a user report to a channel, with the specified user, and screenshots of whatever there reporting (OPTIONAL)
+        - Save message command -- Saves a specified message to the guild log channel
 
         : Dev Features 
         - Maintaince command - When turned on, bot commands will shut off for every guild, status will change to "under maintaince".
+        - Leave server -- Makes the bot leave a server using the guildId
+        - Database -- Checks the database collections and grabs data from a specified collection in an embed
 
         : Feature I might add 
         - AI Moderation
@@ -23,6 +27,7 @@
         : Schema Updates & Fixes 
         - Add a UserSchema and make it store userIds, permissions and maybe other stuff to avoid schema & db clutter
         - Add UserPunishments which will store the UserWarns, mute n such
+        - ReportSchema -- Stores report channel
 
         : Command & Embed & Event Updates/Changes
         - Fix the init command for automoderation so when you press a automod button, the rest of the buttons don't disappear
