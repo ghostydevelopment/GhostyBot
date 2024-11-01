@@ -57,7 +57,8 @@ export default class Ready extends Event {
     this.client.user?.setPresence({
       activities: [
         {
-          name: `Protecting ${serverCount} servers`,
+          name: `Happy Halloween!`,
+          //name: `Protecting ${serverCount} servers`,
           //name: "Under Maintainance",
           type: ActivityType.Custom,
         },

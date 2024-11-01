@@ -15,49 +15,41 @@ import {
   import Category from "../../base/enums/Category";
   
   const changelogs = {
-    version: "1.0.1",
-    date: "10/27/2024",
+    version: "1.0.3",
+    date: "10/31/2024",
     changes: [
       {
         type: "Added",
-        description: "Added anti-raid protection system to the `/filters` command and `/init` command."
+        description: "Added `/ban mass` command."
       },
       {
         type: "Added",
-        description: "Added a series of backup server commands incase nuke happens."
+        description: "Added `/crisis` command."
       },
       {
         type: "Added",
-        description: "Added `/stealemoji` to steal emojis from other servers and upload it to your own server."
+        description: "Added `/profile` command."
       },
       {
-        type: "Updated",
-        description: "Announcement command now has option of urgency."
+        type: "Added",
+        description: "Added `/serverstats` command."
       },
       {
-        type: "Updated",
-        description: "Updated `/init` with better embeds & buttons"
+        type: "Added",
+        description: "Added `/userlookup` command."
       },
       {
-        type: "Updated",
-        description: "Updated `/filters` so all the filters are under one command."
+        type: "Added",
+        description: "Added `/send` command & subcommands."
       },
       {
-        type: "Updated",
-        description: "Filters now have nickname filtering."
-      },
-      {
-        type: "Fixed",
-        description: "Fixed a bug where the filters would not work if the bot was restarted."
+        type: "Added",
+        description: "Added `/archieve` command to archieve a channel."
       },
       {
         type: "Fixed",
-        description: "Fixed the init embed buttons."
-      },
-      {
-        type: "Updated",
-        description: "Updated the `/init` command with new buttons and a better overall style to the embeds."
-      },
+        description: "The status of the bot."
+      }
     ]
   };
   

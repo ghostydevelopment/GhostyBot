@@ -78,8 +78,45 @@ export default class Ban extends Command {
         },
         {
           name: "all",
-          description: "List all banned users.",
+          description: "List all banned users in the current guild.",
           type: ApplicationCommandOptionType.Subcommand,
+        },
+        {
+          name: "mass",
+          description: "Ban multiple users from the server.",
+          type: ApplicationCommandOptionType.Subcommand,
+          options: [
+            {
+              name: "targets",
+              description: "Select the users to ban.",
+              type: ApplicationCommandOptionType.String,
+              required: true,
+            },
+            {
+              name: "reason",
+              description: "Provide a reason for the ban.",
+              type: ApplicationCommandOptionType.String,
+              required: false,
+            },
+            {
+              name: "days",
+              description: "Deletes the users recent messages.",
+              type: ApplicationCommandOptionType.String,
+              required: false,
+              choices: [
+                { name: "None", value: "0" },
+                { name: "Previous 1 day", value: "1d" },
+                { name: "Previous 3 days", value: "3d" },
+                { name: "Previous 7 days", value: "7d" },
+              ],
+            },
+            {
+              name: "silent",
+              description: "Silent ban the users.",
+              type: ApplicationCommandOptionType.Boolean,
+              required: false,
+            },
+          ],
         },
       ],
     });

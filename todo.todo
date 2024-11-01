@@ -7,6 +7,9 @@
         - Verification system, either by CAPTCHA, or website link, or reaction.
         - Report setup command & user report command -- sends a user report to a channel, with the specified user, and screenshots of whatever there reporting (OPTIONAL)
         - Save message command -- Saves a specified message to the guild log channel
+        - Modstats -- Shows how many actions a moderator has taken 
+        - Mass kick -- Kicks multiple specified users from guild
+        - Softban -- Bans a user and then unbans them immediately
 
         : Dev Features 
         - Maintaince command - When turned on, bot commands will shut off for every guild, status will change to "under maintaince".
