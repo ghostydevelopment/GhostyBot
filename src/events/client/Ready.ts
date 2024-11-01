@@ -1,7 +1,8 @@
-import { ActivityType, Collection, Events, REST, Routes } from "discord.js";
+import { ActivityType, Collection, Events, REST, Routes, PresenceStatusData } from "discord.js";
 import CustomClient from "../../base/classes/CustomClient";
 import Event from "../../base/classes/Event";
 import Command from "../../base/classes/Command";
+import Maintaince from "../../base/schemas/Maintaince";
 
 export default class Ready extends Event {
   constructor(client: CustomClient) {
@@ -15,8 +16,8 @@ export default class Ready extends Event {
   async Execute() {
     console.log(`${this.client.user?.tag} is now online.`);
 
-    // Set a static activity
-    this.setStaticActivity();
+    // Set activity based on maintaince mode
+    await this.setActivityBasedOnMaintaince();
 
     const clientId = this.client.developmentMode
       ? this.client.config.devDiscordClientID
@@ -52,19 +53,37 @@ export default class Ready extends Event {
     );
   }
 
-  private async setStaticActivity() {
+  private async setActivityBasedOnMaintaince() {
+    const maintaince = await Maintaince.findOne({});
     const serverCount = this.client.guilds.cache.size;
-    this.client.user?.setPresence({
-      activities: [
-        {
-          //name: `Happy Halloween!`,
-          name: `Protecting ${serverCount} servers`,
-          //name: "Under Maintainance",
-          type: ActivityType.Custom,
-        },
-      ],
-      status: "dnd",
-    });
+
+    if (maintaince?.enabled) {
+      setTimeout(async () => {
+        const presence = {
+          activities: [
+            {
+              name: "Under Maintainance",
+              type: ActivityType.Watching,
+            },
+          ],
+          status: "dnd" as PresenceStatusData,
+        };
+        await this.client.user?.setPresence(presence);
+      }, 5000);
+    } else {
+      setTimeout(async () => {
+        const presence = {
+          activities: [
+            {
+              name: `Protecting ${serverCount} servers`,
+              type: ActivityType.Watching,
+            },
+          ],
+          status: "online" as PresenceStatusData,
+        };
+        await this.client.user?.setPresence(presence);
+      }, 5000);
+    }
   }
 
   private GetJson(commands: Collection<string, Command>): object[] {

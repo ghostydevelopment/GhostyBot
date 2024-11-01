@@ -12,8 +12,6 @@
         - Softban -- Bans a user and then unbans them immediately
 
         : Dev Features 
-        - Maintaince command - When turned on, bot commands will shut off for every guild, status will change to "under maintaince".
-        - Leave server -- Makes the bot leave a server using the guildId
         - Database -- Checks the database collections and grabs data from a specified collection in an embed
 
         : Feature I might add 
@@ -37,6 +35,7 @@
         - Fix backup start command to replace everything in the correct order
         - Case numbers for moderation actions
         - Improved logging 
+        - Fix maintaince command w/ status
 
         : Dashboard 
         - Create login page on main website that'll redirect to the dashboard
