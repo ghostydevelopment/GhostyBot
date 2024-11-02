@@ -6,8 +6,6 @@
         - Enhanced permissions for staff (e.g., /permission <1-8> <user>)
         - Verification system, either by CAPTCHA, or website link, or reaction.
         - Report setup command & user report command -- sends a user report to a channel, with the specified user, and screenshots of whatever there reporting (OPTIONAL)
-        - Save message command -- Saves a specified message to the guild log channel
-        - Modstats -- Shows how many actions a moderator has taken 
         - Mass kick -- Kicks multiple specified users from guild
         - Softban -- Bans a user and then unbans them immediately
 
@@ -26,6 +24,7 @@
         - None
 
         : Schema Updates & Fixes 
+        - Schema revamps
         - Add a UserSchema and make it store userIds, permissions and maybe other stuff to avoid schema & db clutter
         - Add UserPunishments which will store the UserWarns, mute n such
         - ReportSchema -- Stores report channel
@@ -36,6 +35,7 @@
         - Case numbers for moderation actions
         - Improved logging 
         - Fix maintaince command w/ status
+        - Fix save message 
 
         : Dashboard 
         - Create login page on main website that'll redirect to the dashboard

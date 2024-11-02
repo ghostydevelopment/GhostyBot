@@ -57,9 +57,8 @@ export default class Ready extends Event {
     const maintaince = await Maintaince.findOne({});
     const serverCount = this.client.guilds.cache.size;
 
-    if (maintaince?.enabled) {
-      setTimeout(async () => {
-        const presence = {
+    const presence = maintaince?.enabled
+      ? {
           activities: [
             {
               name: "Under Maintainance",
@@ -67,12 +66,8 @@ export default class Ready extends Event {
             },
           ],
           status: "dnd" as PresenceStatusData,
-        };
-        await this.client.user?.setPresence(presence);
-      }, 5000);
-    } else {
-      setTimeout(async () => {
-        const presence = {
+        }
+      : {
           activities: [
             {
               name: `Protecting ${serverCount} servers`,
@@ -81,9 +76,8 @@ export default class Ready extends Event {
           ],
           status: "online" as PresenceStatusData,
         };
-        await this.client.user?.setPresence(presence);
-      }, 5000);
-    }
+
+    await this.client.user?.setPresence(presence);
   }
 
   private GetJson(commands: Collection<string, Command>): object[] {
