@@ -40,6 +40,6 @@
         - Dashboard will make the bot 10x customizable
 
         : Extras 
-        - Make a bash/.exe file that users can use to simply run this bot
+        - Fix the bat file for option 2 and 3, so the contents they fill out get posted in the example.config.json file
     --/
 --/
