@@ -4,7 +4,7 @@ import {
   EmbedBuilder,
   PermissionFlagsBits,
   TextChannel,
-  NewsChannel, // Added to handle news channels
+  NewsChannel,
 } from "discord.js";
 import Command from "../../base/classes/Command";
 import CustomClient from "../../base/classes/CustomClient";
@@ -58,7 +58,7 @@ export default class Announcement extends Command {
 
     const targetChannel = interaction.options.getChannel("channel") as
       | TextChannel
-      | NewsChannel; // Updated to include NewsChannel
+      | NewsChannel;
     const message = interaction.options.getString("message", true);
     const urgency = interaction.options.getString("urgency") || "none";
 
@@ -71,6 +71,10 @@ export default class Announcement extends Command {
       )
       .setDescription(`>>> ${message}`)
       .setThumbnail(interaction.user.displayAvatarURL())
+      .setAuthor({
+        name: interaction.user.tag,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
       .addFields(
         {
           name: "**Urgency**",
@@ -80,10 +84,11 @@ export default class Announcement extends Command {
         { name: "**Channel**", value: `#${targetChannel.name}`, inline: true }
       )
       .setFooter({
-        text: `Announced by ${interaction.user.tag}`,
+        text: `Announced on ${new Date().toLocaleString()}`,
         iconURL: interaction.user.displayAvatarURL(),
       })
-      .setTimestamp();
+      .setTimestamp()
+      .setDescription(`>>> ${message}\n\n*This is an important announcement!*`); // Enhanced description
 
     if (
       targetChannel instanceof TextChannel ||
