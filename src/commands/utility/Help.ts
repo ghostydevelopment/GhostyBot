@@ -14,15 +14,21 @@ import CustomClient from "../../base/classes/CustomClient";
 import Category from "../../base/enums/Category";
 
 const changelogs = {
-  version: "1.0.3",
-  date: "10/31/2024",
+  version: "1.0.4",
+  date: "11/05/2024",
   changes: [
     { type: "Added", description: "Added `/ban mass` command." },
-    { type: "Added", description: "Added `/crisis` command." },
-    { type: "Added", description: "Added `/profile` command." },
-    { type: "Added", description: "Added `/serverstats` command." },
-    { type: "Added", description: "Added `/userlookup` command." },
-    { type: "Added", description: "Added `/send` command & subcommands." },
+    { type: "Added", description: "Added `/kick mass` command." },
+    {
+      type: "Updated",
+      description:
+        "Updated `/id` embed to have more information & modern styling.",
+    },
+    {
+      type: "Updated",
+      description:
+        "Updated `/serverstats` embed to be more modern and list more information.",
+    },
     {
       type: "Added",
       description: "Added `/archieve` command to archive a channel.",
