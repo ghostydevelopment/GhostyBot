@@ -6,8 +6,6 @@
         - Enhanced permissions for staff (e.g., /permission <1-8> <user>)
         - Verification system, either by CAPTCHA, or website link, or reaction.
         - Report setup command & user report command -- sends a user report to a channel, with the specified user, and screenshots of whatever there reporting (OPTIONAL)
-        - Mass kick -- Kicks multiple specified users from guild
-        - Softban -- Bans a user and then unbans them immediately
 
         : Dev Features 
         - Database -- Checks the database collections and grabs data from a specified collection in an embed
@@ -40,5 +38,8 @@
         : Dashboard 
         - Create login page on main website that'll redirect to the dashboard
         - Dashboard will make the bot 10x customizable
+
+        : Extras 
+        - Make a bash/.exe file that users can use to simply run this bot
     --/
 --/
