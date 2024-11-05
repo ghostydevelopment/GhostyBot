@@ -4,6 +4,7 @@ import {
   EmbedBuilder,
   PermissionFlagsBits,
   TextChannel,
+  NewsChannel, // Added to handle news channels
 } from "discord.js";
 import Command from "../../base/classes/Command";
 import CustomClient from "../../base/classes/CustomClient";
@@ -55,19 +56,27 @@ export default class Announcement extends Command {
   async Execute(interaction: ChatInputCommandInteraction) {
     await interaction.deferReply({ ephemeral: true });
 
-    const targetChannel = interaction.options.getChannel(
-      "channel"
-    ) as TextChannel;
+    const targetChannel = interaction.options.getChannel("channel") as
+      | TextChannel
+      | NewsChannel; // Updated to include NewsChannel
     const message = interaction.options.getString("message", true);
     const urgency = interaction.options.getString("urgency") || "none";
 
     const embed = new EmbedBuilder()
       .setColor(urgency === "high" ? "#ff0000" : "#00ff00")
-      .setTitle(urgency === "high" ? "🚨 **High Urgency Announcement** 🚨" : "📢 **Announcement** 📢")
+      .setTitle(
+        urgency === "high"
+          ? "🚨 **High Urgency Announcement** 🚨"
+          : "📢 **Announcement** 📢"
+      )
       .setDescription(`>>> ${message}`)
       .setThumbnail(interaction.user.displayAvatarURL())
       .addFields(
-        { name: "**Urgency**", value: `\`${urgency.charAt(0).toUpperCase() + urgency.slice(1)}\``, inline: true },
+        {
+          name: "**Urgency**",
+          value: `\`${urgency.charAt(0).toUpperCase() + urgency.slice(1)}\``,
+          inline: true,
+        },
         { name: "**Channel**", value: `#${targetChannel.name}`, inline: true }
       )
       .setFooter({
@@ -76,7 +85,19 @@ export default class Announcement extends Command {
       })
       .setTimestamp();
 
-    await targetChannel.send({ embeds: [embed] });
+    if (
+      targetChannel instanceof TextChannel ||
+      targetChannel instanceof NewsChannel
+    ) {
+      await targetChannel.send({ embeds: [embed] });
+    } else {
+      await interaction.editReply({
+        content:
+          "❌ Invalid channel type. Please select a text or news channel.",
+      });
+      return;
+    }
+
     await interaction.editReply({
       content: "✅ Announcement sent successfully!",
     });
