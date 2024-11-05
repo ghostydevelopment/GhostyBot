@@ -42,19 +42,64 @@ export default class Profile extends Command {
     }
 
     const embed = new EmbedBuilder()
-      .setColor("Blue")
+      .setColor("#7289DA") // Discord blue
       .setTitle(`🌟 Profile of ${targetUser.tag} 🌟`)
+      .setThumbnail(targetUser.displayAvatarURL({}))
       .addFields(
-        { name: "👤 Username", value: `\`${targetUser.username}\``, inline: true },
-        { name: "#️⃣ Discriminator", value: `\`#${targetUser.discriminator}\``, inline: true },
+        {
+          name: "👤 Username",
+          value: `\`${targetUser.username}\``,
+          inline: true,
+        },
+        {
+          name: "#️⃣ Discriminator",
+          value: `\`#${targetUser.discriminator}\``,
+          inline: true,
+        },
         { name: "🆔 ID", value: `\`${targetUser.id}\``, inline: true },
-        { name: "📅 Joined Server", value: `<t:${Math.floor(member.joinedTimestamp! / 1000)}:R>`, inline: true },
-        { name: "📆 Account Created", value: `<t:${Math.floor(targetUser.createdTimestamp / 1000)}:R>`, inline: true },
-        { name: "🔰 Roles", value: member.roles.cache.map(role => `\`${role.name}\``).join(", "), inline: false },
-        { name: "📡 Status", value: `\`${member.presence?.status || "offline"}\``, inline: true },
-        { name: "🎮 Activity", value: `\`${member.presence?.activities[0]?.name || "None"}\``, inline: true }
+        {
+          name: "📅 Joined Server",
+          value: `<t:${Math.floor(member.joinedTimestamp! / 1000)}:R>`,
+          inline: true,
+        },
+        {
+          name: "📆 Account Created",
+          value: `<t:${Math.floor(targetUser.createdTimestamp / 1000)}:R>`,
+          inline: true,
+        },
+        {
+          name: "🔰 Roles",
+          value:
+            member.roles.cache.size > 0
+              ? member.roles.cache.map((role) => `\`${role.name}\``).join(", ")
+              : "No roles",
+          inline: false,
+        },
+        {
+          name: "📡 Status",
+          value: `\`${member.presence?.status || "offline"}\``,
+          inline: true,
+        },
+        {
+          name: "🎮 Activity",
+          value: `\`${member.presence?.activities[0]?.name || "None"}\``,
+          inline: true,
+        },
+        {
+          name: "🏆 Highest Role",
+          value: `\`${member.roles.highest.name}\``,
+          inline: true,
+        },
+        {
+          name: "🔗 Profile Link",
+          value: `[Click Here](https://discord.com/users/${targetUser.id})`,
+          inline: true,
+        }
       )
-      .setFooter({ text: `Requested by ${interaction.user.tag}`})
+      .setFooter({
+        text: `Requested by ${interaction.user.tag}`,
+        iconURL: interaction.user.displayAvatarURL(),
+      })
       .setTimestamp();
 
     await interaction.reply({ embeds: [embed] });

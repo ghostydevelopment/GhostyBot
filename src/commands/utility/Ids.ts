@@ -12,13 +12,13 @@ export default class Ids extends Command {
   constructor(client: CustomClient) {
     super(client, {
       name: "id",
-      description: "Get the ID of a specified user",
+      description: "Retrieve the ID of a specified user",
       category: Category.Utilities,
       default_member_permissions: PermissionFlagsBits.UseApplicationCommands,
       options: [
         new SlashCommandUserOption()
           .setName("user")
-          .setDescription("The user to get the ID of")
+          .setDescription("Select a user to get their ID")
           .setRequired(true),
       ],
       cooldown: 5,
@@ -32,17 +32,19 @@ export default class Ids extends Command {
 
     if (!user) {
       return interaction.reply({
-        content: "Please specify a valid user.",
+        content: "⚠️ Please specify a valid user.",
         ephemeral: true,
       });
     }
 
     const embed = new EmbedBuilder()
       .setColor("Blue")
-      .setTitle("User ID")
+      .setTitle("User ID Information")
       .setDescription(
-        `<:spaceship1:1299180094140715089> The ID of ${user.tag} is: \`${user.id}\``
-      );
+        `<:spaceship1:1299180094140715089> **User:** ${user.tag}\n**ID:** \`${user.id}\``
+      )
+      .setFooter({ text: "Use this ID wisely!" })
+      .setTimestamp();
 
     interaction.reply({
       embeds: [embed],

@@ -40,11 +40,14 @@ export default class UserInfo extends Command {
     return interaction.editReply({
       embeds: [
         new EmbedBuilder()
-          .setColor(fetchedMember.user.accentColor || "Green")
+          .setColor(fetchedMember.user.accentColor || "#0099ff") // Default to a blue color
           .setAuthor({
-            name: `${fetchedMember.user.tag} profile`,
+            name: `${fetchedMember.user.tag}'s Profile`,
             iconURL: fetchedMember.displayAvatarURL({}),
-          }).setDescription(`
+          })
+          .setThumbnail(fetchedMember.displayAvatarURL({ size: 128 }))
+          .setDescription(
+            `
                 __**User Info:**__
                 > **ID:** \`${fetchedMember.id}\`
                 > **Bot:** \`${fetchedMember.user.bot ? "Yes" : "No"}\`
@@ -57,11 +60,11 @@ export default class UserInfo extends Command {
                   fetchedMember.nickname || fetchedMember.user.username
                 }
                 > **Roles: (${fetchedMember.roles.cache.size - 1}):** ${
-          fetchedMember.roles.cache
-            .map((r) => r)
-            .join(", ")
-            .replace("@everyone", "") || "None"
-        }
+              fetchedMember.roles.cache
+                .map((r) => r)
+                .join(", ")
+                .replace("@everyone", "") || "None"
+            }
                 > **Admin:** \`${fetchedMember.permissions.has(
                   PermissionFlagsBits.Administrator
                 )}\`
@@ -71,7 +74,17 @@ export default class UserInfo extends Command {
                 > **Joined Position:** \`#${
                   this.GetJoinPosition(interaction, fetchedMember)! + 1
                 } / #${interaction.guild?.memberCount}\`
-                `),
+                > **Status:** \`${fetchedMember.presence?.status || "offline"}\`
+                > **Current Activity:** \`${
+                  fetchedMember.presence?.activities[0]?.name || "None"
+                }\`
+                `
+          )
+          .setFooter({
+            text: `Requested by ${interaction.user.tag}`,
+            iconURL: interaction.user.displayAvatarURL(),
+          })
+          .setTimestamp(),
       ],
     });
   }

@@ -36,35 +36,36 @@ export default class Invites extends Command {
 
     if (!member) {
       return interaction.reply({
-        content: "Unable to find the specified user in this server.",
+        content: "⚠️ Unable to find the specified user in this server.",
         ephemeral: true,
       });
     }
 
     try {
       const invites = await interaction.guild?.invites.fetch();
-      let totalInvites = 0;
-
-      invites?.forEach((invite) => {
-        if (invite.inviter?.id === targetUser.id) {
-          totalInvites += invite.uses || 0;
-        }
-      });
+      let totalInvites =
+        invites?.reduce((acc, invite) => {
+          return invite.inviter?.id === targetUser.id
+            ? acc + (invite.uses || 0)
+            : acc;
+        }, 0) || 0;
 
       const embed = new EmbedBuilder()
-        .setColor("Blue")
+        .setColor("#3498db") // A more visually appealing blue
         .setTitle(
           `<:spaceship1:1299180094140715089> Invites for ${targetUser.tag}`
         )
         .setThumbnail(targetUser.displayAvatarURL({ size: 64 }))
-        .setDescription(`Total invites: **${totalInvites}**`)
+        .setDescription(`**Total Invites:** ${totalInvites}`)
+        .setFooter({ text: "Invite tracking is important!" })
         .setTimestamp();
 
       await interaction.reply({ embeds: [embed] });
     } catch (error) {
       console.error("Error fetching invites:", error);
       await interaction.reply({
-        content: "An error occurred while fetching invites.",
+        content:
+          "❌ An error occurred while fetching invites. Please try again later.",
         ephemeral: true,
       });
     }

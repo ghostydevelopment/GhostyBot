@@ -9,8 +9,6 @@ import {
 import Command from "../../base/classes/Command";
 import CustomClient from "../../base/classes/CustomClient";
 import Category from "../../base/enums/Category";
-import ms from "ms";
-import os from "os";
 
 export default class Serverstats extends Command {
   constructor(client: CustomClient) {
@@ -41,23 +39,28 @@ export default class Serverstats extends Command {
       embeds: [
         new EmbedBuilder()
           .setThumbnail(guild.iconURL()!)
-          .setColor("Blue").setDescription(`
-            __**Server Info:**__
-            > **Name:** \`${guild.name}\`
-            > **ID:** \`${guild.id}\`
-            > **Owner:** \`${owner.user.tag}\` - \`${owner.id}\`
-            > **Created:** <t:${(guild.createdTimestamp / 1000).toFixed(0)}:R>
-            > **Members:** \`${guild.memberCount}\`
-            > **Channels:** \`${guild.channels.cache.size}\`
-            > **Roles:** \`${guild.roles.cache.size}\`
-            > **Boost Level:** \`${guild.premiumTier}\`
-            > **Boost Count:** \`${guild.premiumSubscriptionCount}\`
-            `),
+          .setColor("#3498db") // A more visually appealing blue
+          .setTitle("📊 Server Statistics")
+          .setDescription(
+            `
+            __**Server Info:**__ 
+            | **Name:** \`${guild.name}\` 
+            | **ID:** \`${guild.id}\` 
+            | **Owner:** \`${owner.user.tag}\` - \`${owner.id}\` 
+            | **Created:** <t:${(guild.createdTimestamp / 1000).toFixed(0)}:R> 
+            | **Members:** \`${guild.memberCount}\` 
+            | **Channels:** \`${guild.channels.cache.size}\` 
+            | **Roles:** \`${guild.roles.cache.size}\` 
+            | **Boost Level:** \`${guild.premiumTier}\` 
+            | **Boost Count:** \`${guild.premiumSubscriptionCount}\`
+          `
+          )
+          .setFooter({ text: "Stay connected and keep growing!" }),
       ],
       components: [
         new ActionRowBuilder<ButtonBuilder>().addComponents(
           new ButtonBuilder()
-            .setLabel("Server Invite")
+            .setLabel("🌐 Server Invite")
             .setStyle(ButtonStyle.Link)
             .setURL("https://discord.gg/MyvMxunzWD")
         ),

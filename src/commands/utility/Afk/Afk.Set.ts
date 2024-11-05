@@ -21,7 +21,10 @@ export default class AfkSet extends SubCommand {
 
     // Check if the user has the required permissions
     if (!member.permissions.has(PermissionFlagsBits.SendMessages)) {
-      throw new Error("You do not have permission to set AFK status.");
+      return interaction.reply({
+        content: "⚠️ You do not have permission to set AFK status.",
+        ephemeral: true,
+      });
     }
 
     const reason = interaction.options.getString("reason") || "AFK";
@@ -64,7 +67,7 @@ export default class AfkSet extends SubCommand {
 
         // Remove the listener
         this.client.off("messageCreate", messageHandler);
-      } else if (message.mentions.members?.has(member.id)) {
+      } else if (message.mentions.has(member.id)) {
         const afkEmbed = new EmbedBuilder()
           .setColor("Yellow")
           .setDescription(
