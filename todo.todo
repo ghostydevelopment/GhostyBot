@@ -1,46 +1,47 @@
 -- Nova
-    : Nova's todo list
-    -- The things I want to get done
+    : Nova's Todo List
+    -- Tasks Overview
 
-        : Upcoming features
+        : Upcoming Features
         - Enhanced permissions for staff (e.g., /permission <1-8> <user>)
-        - Verification system, either by CAPTCHA, or website link, or reaction.
-        - Report setup command & user report command -- sends a user report to a channel, with the specified user, and screenshots of whatever there reporting (OPTIONAL)
+        - Verification system (options: CAPTCHA, website link, or reaction)
+        - User report command (sends reports to a channel with specified user and optional screenshots)
 
-        : Dev Features 
-        - Database -- Checks the database collections and grabs data from a specified collection in an embed
+        : Development Features 
+        - Database integration (fetch data from specified collections in an embed)
 
-        : Feature I might add 
+        : Potential Features 
         - AI Moderation
-        - Language system for bot localization 
+        - Localization support (language system for the bot)
         - Backup server commands 
-        - Multi-Guild system
-        - Premium system 
+        - Multi-Guild support
+        - Premium features 
         - Custom commands 
 
         : Bug Fixes 
-        - None
+        - Currently none
 
         : Schema Updates & Fixes 
-        - Schema revamps
-        - Add a UserSchema and make it store userIds, permissions and maybe other stuff to avoid schema & db clutter
-        - Add UserPunishments which will store the UserWarns, mute n such
-        - ReportSchema -- Stores report channel
+        - Revamp existing schemas
+        - Implement UserSchema to store userIds, permissions, and additional data to reduce clutter
+        - Create UserPunishments schema to track warnings, mutes, etc.
+        - Develop ReportSchema to store report channels
 
-        : Command & Embed & Event Updates/Changes
-        - Fix the init command for automoderation so when you press a automod button, the rest of the buttons don't disappear
-        - Fix backup start command to replace everything in the correct order
-        - Case numbers for moderation actions
-        - Improved logging 
-        - Fix maintaince command w/ status
-        - Fix save message 
+        : Command, Embed, & Event Updates
+        - Fix init command for automoderation to prevent button disappearance
+        - Correct backup start command to ensure proper order of operations
+        - Implement case numbers for moderation actions
+        - Enhance logging functionality 
+        - Resolve maintenance command issues with status updates
+        - Fix save message functionality 
 
-        : Dashboard 
-        - Create login page on main website that'll redirect to the dashboard
-        - Dashboard will make the bot 10x customizable
+        : Dashboard Enhancements 
+        - Create a login page on the main website that redirects to the dashboard
+        - Improve dashboard customization options for users
 
-        : Extras 
-        - Make a bot.bat, so the user can fill out the config.json from the bat file 
-        - Fix the run.bat file. 
+        : Additional Tasks 
+        - Create a bot.bat file for user configuration of config.json 
+        - Fix issues with the run.bat file 
+        - Implement Terms of Service (ToS) function for new users: display ToS embed upon bot joining a guild, with an accept button. If a user attempts to use a command without accepting ToS, repost the ToS embed for acceptance.
     --/
 --/
