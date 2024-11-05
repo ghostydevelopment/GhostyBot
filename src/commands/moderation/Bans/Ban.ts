@@ -77,6 +77,31 @@ export default class Ban extends Command {
           ],
         },
         {
+          name: "soft",
+          description: "Soft ban a user from the server.",
+          type: ApplicationCommandOptionType.Subcommand,
+          options: [
+            {
+              name: "target",
+              description: "Select the user to soft ban.",
+              type: ApplicationCommandOptionType.User,
+              required: true,
+            },
+            {
+              name: "reason",
+              description: "Provide a reason for the soft ban.",
+              type: ApplicationCommandOptionType.String,
+              required: false,
+            },
+            {
+              name: "silent",
+              description: "Silent soft ban the user.",
+              type: ApplicationCommandOptionType.Boolean,
+              required: false,
+            },
+          ],
+        },
+        {
           name: "all",
           description: "List all banned users in the current guild.",
           type: ApplicationCommandOptionType.Subcommand,
