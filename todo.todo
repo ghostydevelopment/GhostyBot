@@ -40,6 +40,6 @@
         - Dashboard will make the bot 10x customizable
 
         : Extras 
-        - Fix the bat file for option 2 and 3, so the contents they fill out get posted in the example.config.json file
+        - Organize the bat files. One for installation which uses npm install or yarn install, and another one for bot.bat which fills out the config.json
     --/
 --/
