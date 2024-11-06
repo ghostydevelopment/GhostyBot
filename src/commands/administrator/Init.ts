@@ -55,7 +55,11 @@ export default class Init extends Command {
 
       const message = await interaction.editReply({ embeds: [embed] });
 
-      const checks = [this.checkLogsChannel, this.checkBotPermissions, this.checkAutomod];
+      const checks = [
+        this.checkLogsChannel,
+        this.checkBotPermissions,
+        this.checkAutomod,
+      ];
 
       const results = await Promise.all(
         checks.map((check) => check(interaction, detailed))
@@ -126,8 +130,9 @@ export default class Init extends Command {
         }
       });
 
+      // Prevent button disappearance by not removing components on collector end
       collector.on("end", async () => {
-        await message.edit({ components: [] });
+        // Do not edit the message to remove components
       });
     } catch (error) {
       throw error;
@@ -211,7 +216,11 @@ export default class Init extends Command {
         };
       }
 
-      return { name: "<:123e:1300218149005692948> Bot Permissions", value, inline: true };
+      return {
+        name: "<:123e:1300218149005692948> Bot Permissions",
+        value,
+        inline: true,
+      };
     } catch (error) {
       throw error;
     }
@@ -277,12 +286,16 @@ export default class Init extends Command {
 
       collector.on("collect", async (i: MessageComponentInteraction) => {
         if (i.customId === "previous") {
-          await interaction.editReply({ embeds: [previousEmbed], components: [previousRow] });
+          await interaction.editReply({
+            embeds: [previousEmbed],
+            components: [previousRow],
+          });
         }
       });
 
+      // Prevent button disappearance by not removing components on collector end
       collector.on("end", async () => {
-        await interaction.editReply({ components: [] });
+        // Do not edit the message to remove components
       });
     } catch (error) {
       throw error;
@@ -303,7 +316,11 @@ export default class Init extends Command {
     );
   }
 
-  private async handleViewGuide(interaction: MessageComponentInteraction, previousEmbed: EmbedBuilder, previousRow: ActionRowBuilder<ButtonBuilder>) {
+  private async handleViewGuide(
+    interaction: MessageComponentInteraction,
+    previousEmbed: EmbedBuilder,
+    previousRow: ActionRowBuilder<ButtonBuilder>
+  ) {
     try {
       await interaction.deferUpdate();
       const guideEmbed = new EmbedBuilder()
@@ -346,19 +363,27 @@ export default class Init extends Command {
 
       collector.on("collect", async (i: MessageComponentInteraction) => {
         if (i.customId === "previous") {
-          await interaction.editReply({ embeds: [previousEmbed], components: [previousRow] });
+          await interaction.editReply({
+            embeds: [previousEmbed],
+            components: [previousRow],
+          });
         }
       });
 
+      // Prevent button disappearance by not removing components on collector end
       collector.on("end", async () => {
-        await interaction.editReply({ components: [] });
+        // Do not edit the message to remove components
       });
     } catch (error) {
       throw error;
     }
   }
 
-  private async handleAutomod(interaction: MessageComponentInteraction, previousEmbed: EmbedBuilder, previousRow: ActionRowBuilder<ButtonBuilder>) {
+  private async handleAutomod(
+    interaction: MessageComponentInteraction,
+    previousEmbed: EmbedBuilder,
+    previousRow: ActionRowBuilder<ButtonBuilder>
+  ) {
     try {
       await interaction.deferUpdate();
 
@@ -425,12 +450,16 @@ export default class Init extends Command {
           .setStyle(ButtonStyle.Secondary)
       );
 
-      await interaction.editReply({ embeds: [automodEmbed], components: [automodRow] });
-
-      const automodCollector = interaction.message.createMessageComponentCollector({
-        componentType: ComponentType.Button,
-        time: 300000,
+      await interaction.editReply({
+        embeds: [automodEmbed],
+        components: [automodRow],
       });
+
+      const automodCollector =
+        interaction.message.createMessageComponentCollector({
+          componentType: ComponentType.Button,
+          time: 300000,
+        });
 
       automodCollector.on("collect", async (i: MessageComponentInteraction) => {
         if (i.customId === "toggle_link_filtering") {
@@ -442,19 +471,27 @@ export default class Init extends Command {
         } else if (i.customId === "toggle_raid_filtering") {
           await this.toggleRaidFiltering(i, previousEmbed, previousRow);
         } else if (i.customId === "previous") {
-          await interaction.editReply({ embeds: [previousEmbed], components: [previousRow] });
+          await interaction.editReply({
+            embeds: [previousEmbed],
+            components: [previousRow],
+          });
         }
       });
 
+      // Prevent button disappearance by not removing components on collector end
       automodCollector.on("end", async () => {
-        await interaction.editReply({ components: [] });
+        // Do not edit the message to remove components
       });
     } catch (error) {
       throw error;
     }
   }
 
-  private async toggleLinkFiltering(interaction: MessageComponentInteraction, previousEmbed: EmbedBuilder, previousRow: ActionRowBuilder<ButtonBuilder>) {
+  private async toggleLinkFiltering(
+    interaction: MessageComponentInteraction,
+    previousEmbed: EmbedBuilder,
+    previousRow: ActionRowBuilder<ButtonBuilder>
+  ) {
     try {
       const filters = await Filters.findOne({ guildId: interaction.guildId });
       const linkFilteringEnabled = filters?.links ?? false;
@@ -515,19 +552,27 @@ export default class Init extends Command {
 
       collector.on("collect", async (i: MessageComponentInteraction) => {
         if (i.customId === "previous") {
-          await interaction.editReply({ embeds: [previousEmbed], components: [previousRow] });
+          await interaction.editReply({
+            embeds: [previousEmbed],
+            components: [previousRow],
+          });
         }
       });
 
+      // Prevent button disappearance by not removing components on collector end
       collector.on("end", async () => {
-        await interaction.editReply({ components: [] });
+        // Do not edit the message to remove components
       });
     } catch (error) {
       throw error;
     }
   }
 
-  private async toggleWordFiltering(interaction: MessageComponentInteraction, previousEmbed: EmbedBuilder, previousRow: ActionRowBuilder<ButtonBuilder>) {
+  private async toggleWordFiltering(
+    interaction: MessageComponentInteraction,
+    previousEmbed: EmbedBuilder,
+    previousRow: ActionRowBuilder<ButtonBuilder>
+  ) {
     try {
       const filters = await Filters.findOne({ guildId: interaction.guildId });
       const wordFilteringEnabled = filters?.words ?? false;
@@ -588,19 +633,27 @@ export default class Init extends Command {
 
       collector.on("collect", async (i: MessageComponentInteraction) => {
         if (i.customId === "previous") {
-          await interaction.editReply({ embeds: [previousEmbed], components: [previousRow] });
+          await interaction.editReply({
+            embeds: [previousEmbed],
+            components: [previousRow],
+          });
         }
       });
 
+      // Prevent button disappearance by not removing components on collector end
       collector.on("end", async () => {
-        await interaction.editReply({ components: [] });
+        // Do not edit the message to remove components
       });
     } catch (error) {
       throw error;
     }
   }
 
-  private async toggleNicknameFiltering(interaction: MessageComponentInteraction, previousEmbed: EmbedBuilder, previousRow: ActionRowBuilder<ButtonBuilder>) {
+  private async toggleNicknameFiltering(
+    interaction: MessageComponentInteraction,
+    previousEmbed: EmbedBuilder,
+    previousRow: ActionRowBuilder<ButtonBuilder>
+  ) {
     try {
       const filters = await Filters.findOne({ guildId: interaction.guildId });
       const nicknameFilteringEnabled = filters?.nicknames ?? false;
@@ -661,19 +714,27 @@ export default class Init extends Command {
 
       collector.on("collect", async (i: MessageComponentInteraction) => {
         if (i.customId === "previous") {
-          await interaction.editReply({ embeds: [previousEmbed], components: [previousRow] });
+          await interaction.editReply({
+            embeds: [previousEmbed],
+            components: [previousRow],
+          });
         }
       });
 
+      // Prevent button disappearance by not removing components on collector end
       collector.on("end", async () => {
-        await interaction.editReply({ components: [] });
+        // Do not edit the message to remove components
       });
     } catch (error) {
       throw error;
     }
   }
 
-  private async toggleRaidFiltering(interaction: MessageComponentInteraction, previousEmbed: EmbedBuilder, previousRow: ActionRowBuilder<ButtonBuilder>) {
+  private async toggleRaidFiltering(
+    interaction: MessageComponentInteraction,
+    previousEmbed: EmbedBuilder,
+    previousRow: ActionRowBuilder<ButtonBuilder>
+  ) {
     try {
       const filters = await Filters.findOne({ guildId: interaction.guildId });
       const raidFilteringEnabled = filters?.raid ?? false;
@@ -734,12 +795,16 @@ export default class Init extends Command {
 
       collector.on("collect", async (i: MessageComponentInteraction) => {
         if (i.customId === "previous") {
-          await interaction.editReply({ embeds: [previousEmbed], components: [previousRow] });
+          await interaction.editReply({
+            embeds: [previousEmbed],
+            components: [previousRow],
+          });
         }
       });
 
+      // Prevent button disappearance by not removing components on collector end
       collector.on("end", async () => {
-        await interaction.editReply({ components: [] });
+        // Do not edit the message to remove components
       });
     } catch (error) {
       throw error;
