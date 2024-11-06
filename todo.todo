@@ -43,5 +43,6 @@
         - Fix issues with the run.bat file 
         - Implement Terms of Service (ToS) function for new users: display ToS embed upon bot joining a guild, with an accept button. If a user attempts to use a command without accepting ToS, repost the ToS embed for acceptance.
         - Make it so config.bat also changes config.example.json to config.json
+        - Make it so there is only one bat file, the bat will ask the questions, update the config, go into the main dir, npm or yarn install and than npm run start
     --/
 --/
