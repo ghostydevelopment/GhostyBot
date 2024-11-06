@@ -2,6 +2,7 @@
 setlocal enabledelayedexpansion
 
 set "configFile=../data/config.example.json"
+set "newConfigFile=../data/config.json"
 
 echo Please answer the following questions to configure your settings:
 
@@ -28,6 +29,11 @@ set /p developerUserIds="Enter developer user IDs (comma-separated): "
 ) > "!configFile!"
 
 echo Configuration saved to !configFile!
+
+rem Rename config.example.json to config.json
+move "!configFile!" "!newConfigFile!"
+
+echo Configuration file renamed to !newConfigFile!
 
 echo Starting the bot...
 npm run start

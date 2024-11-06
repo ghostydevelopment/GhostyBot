@@ -22,8 +22,6 @@ The best advanced Discord moderation bot, but extremely simple and user-friendly
 
 2. Using scripts
    ```bash
-   Go into the scripts folder in the folder directory and click config.bat,
-   A terminal will open up and it will ask you a series of configuration questions.
-   After you have done that, click the installation.bat to install all the required packages,
-   using npm or yarn and once you do that, click the run.bat to start the bot!
+   Go into the scripts folder in the project folder directory, and click "installation.bat" to install the required dependencies.
+   Once that has been done, click "config.bat" to configure the bot configuration and to start the bot.
    ```

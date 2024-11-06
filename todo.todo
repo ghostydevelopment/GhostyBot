@@ -38,11 +38,9 @@
         : Additional Tasks 
         - Fix issues with the run.bat file 
         - Implement Terms of Service (ToS) function for new users: display ToS embed upon bot joining a guild, with an accept button. If a user attempts to use a command without accepting ToS, repost the ToS embed for acceptance.
-        - Modify config.bat to change config.example.json to config.json
-        - Consolidate to a single bat file that asks questions, updates the config, navigates to the main directory, installs dependencies, and starts the bot
         - Create emojis.json file to store emojis for easier use in embeds
 
-         : Dashboard Enhancements 
+        : Dashboard Enhancements 
         - Create a login page on the main website that redirects to the dashboard
         - Improve dashboard customization options for users
     --/
