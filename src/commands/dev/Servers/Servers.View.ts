@@ -24,9 +24,19 @@ export default class ServersView extends SubCommand {
       .setDescription("Here are the servers the bot is currently in:");
 
     for (const guild of guilds.values()) {
+      let inviteLink = "Cannot fetch invite";
+      try {
+        const invites = await guild.invites.fetch();
+        if (invites.size > 0) {
+          inviteLink = invites.first()?.url || inviteLink;
+        }
+      } catch {
+        // Ignore the error and continue
+      }
+
       embed.addFields({
         name: guild.name,
-        value: `ID: ${guild.id}`,
+        value: `ID: ${guild.id} | Invite: ${inviteLink}`,
       });
     }
 
@@ -36,11 +46,7 @@ export default class ServersView extends SubCommand {
         ephemeral: true,
       });
     } catch (error) {
-      if (error instanceof DiscordAPIError && error.code === 10062) {
-        console.error("Unknown interaction error:", error);
-      } else {
-        console.error("Failed to reply to interaction:", error);
-      }
+      throw error; // Throwing the error to the console
     }
   }
 }
