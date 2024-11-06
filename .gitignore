@@ -1,5 +1,5 @@
 node_modules
 data/config.json
-data/config.config.json
+data/config.example.json
 data/emojis.json
 build
