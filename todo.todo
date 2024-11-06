@@ -16,10 +16,10 @@
         - Backup server commands 
         - Multi-Guild support
         - Premium features 
-        - Custom commands 
+        - Custom commands
 
         : Bug Fixes 
-        - Currently none
+        - Fix the /init command buttons to prevent button disappearance
 
         : Schema Updates & Fixes 
         - Revamp existing schemas
@@ -28,12 +28,12 @@
         - Create ReportSchema to store report channels
 
         : Command, Embed, & Event Updates
-        - Fix init command for automoderation to prevent button disappearance
         - Correct backup start command to ensure proper order of operations
         - Implement case numbers for moderation actions
         - Enhance logging functionality 
         - Resolve maintenance command issues with status updates
         - Fix save message functionality & command
+        - Have a optional subcommand for stealemoji so they can steal multiple at once
 
         : Additional Tasks 
         - Fix issues with the run.bat file 
