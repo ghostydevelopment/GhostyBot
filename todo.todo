@@ -34,6 +34,7 @@
         - Resolve maintenance command issues with status updates
         - Fix save message functionality & command
         - Have a optional subcommand for stealemoji so they can steal multiple at once
+        - Do a haul on all of the embeds to make them cleaner, support buttons, string menus, and modals
 
         : Additional Tasks 
         - Fix issues with the run.bat file 
