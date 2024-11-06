@@ -22,6 +22,7 @@ The best advanced Discord moderation bot, but extremely simple and user-friendly
 
 2. Using scripts
    ```bash
-   Go into the scripts folder in the project folder directory, and click "installation.bat" to install the required dependencies.
+   Go into the scripts folder in the project folder directory, and click "installation.bat",
+    to install the required dependencies.
    Once that has been done, click "config.bat" to configure the bot configuration and to start the bot.
    ```
