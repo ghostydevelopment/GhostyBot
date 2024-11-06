@@ -1,4 +1,3 @@
-# Start Generation Here
 @echo off
 setlocal enabledelayedexpansion
 
@@ -29,5 +28,8 @@ set /p developerUserIds="Enter developer user IDs (comma-separated): "
 ) > "!configFile!"
 
 echo Configuration saved to !configFile!
+
+echo Starting the bot...
+npm run start
+
 pause
-# End Generation Here
