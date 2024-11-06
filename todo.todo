@@ -9,7 +9,6 @@
 
         : Development Features 
         - Database integration (fetch data from specified collections in an embed for easier management)
-        - Server view command to display server invites; if an invite cannot be fetched, display "no invite"
 
         : Potential Features 
         - AI Moderation
@@ -26,7 +25,7 @@
         - Revamp existing schemas
         - Implement UserSchema to store user IDs, permissions, and additional data for better organization
         - Create UserPunishments schema to track warnings, mutes, etc.
-        - Develop ReportSchema to store report channels
+        - Create ReportSchema to store report channels
 
         : Command, Embed, & Event Updates
         - Fix init command for automoderation to prevent button disappearance
@@ -36,15 +35,15 @@
         - Resolve maintenance command issues with status updates
         - Fix save message functionality & command
 
-        : Dashboard Enhancements 
-        - Create a login page on the main website that redirects to the dashboard
-        - Improve dashboard customization options for users
-
         : Additional Tasks 
         - Fix issues with the run.bat file 
         - Implement Terms of Service (ToS) function for new users: display ToS embed upon bot joining a guild, with an accept button. If a user attempts to use a command without accepting ToS, repost the ToS embed for acceptance.
         - Modify config.bat to change config.example.json to config.json
         - Consolidate to a single bat file that asks questions, updates the config, navigates to the main directory, installs dependencies, and starts the bot
         - Create emojis.json file to store emojis for easier use in embeds
+
+         : Dashboard Enhancements 
+        - Create a login page on the main website that redirects to the dashboard
+        - Improve dashboard customization options for users
     --/
 --/
