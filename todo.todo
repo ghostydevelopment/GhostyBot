@@ -33,15 +33,15 @@
         - Implement case numbers for moderation actions
         - Enhance logging functionality 
         - Resolve maintenance command issues with status updates
-        - Fix save message functionality 
+        - Fix save message functionality & command
 
         : Dashboard Enhancements 
         - Create a login page on the main website that redirects to the dashboard
         - Improve dashboard customization options for users
 
         : Additional Tasks 
-        - Create a bot.bat file for user configuration of config.json 
         - Fix issues with the run.bat file 
         - Implement Terms of Service (ToS) function for new users: display ToS embed upon bot joining a guild, with an accept button. If a user attempts to use a command without accepting ToS, repost the ToS embed for acceptance.
+        - Make it so config.bat also changes config.example.json to config.json
     --/
 --/

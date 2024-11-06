@@ -58,7 +58,7 @@ export default class GuildCreate extends Event {
         },
         {
           name: "📚 Need Help?",
-          value: "Type `/help command` for a list of available commands.",
+          value: "Type `/help` for a list of available commands.",
         },
         {
           name: "⚠️ Beta Version",
