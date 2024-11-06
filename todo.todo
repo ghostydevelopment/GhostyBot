@@ -8,7 +8,8 @@
         - User report command (sends reports to a channel with specified user and optional screenshots)
 
         : Development Features 
-        - Database integration (fetch data from specified collections in an embed, so it'll be easier to delete or add collections via cmd)
+        - Database integration (fetch data from specified collections in an embed for easier management)
+        - Server view command to display server invites; if an invite cannot be fetched, display "no invite"
 
         : Potential Features 
         - AI Moderation
@@ -23,7 +24,7 @@
 
         : Schema Updates & Fixes 
         - Revamp existing schemas
-        - Implement UserSchema to store userIds, permissions, and additional data to reduce clutter
+        - Implement UserSchema to store user IDs, permissions, and additional data for better organization
         - Create UserPunishments schema to track warnings, mutes, etc.
         - Develop ReportSchema to store report channels
 
@@ -42,7 +43,8 @@
         : Additional Tasks 
         - Fix issues with the run.bat file 
         - Implement Terms of Service (ToS) function for new users: display ToS embed upon bot joining a guild, with an accept button. If a user attempts to use a command without accepting ToS, repost the ToS embed for acceptance.
-        - Make it so config.bat also changes config.example.json to config.json
-        - Make it so there is only one bat file, the bat will ask the questions, update the config, go into the main dir, npm or yarn install and than npm run start
+        - Modify config.bat to change config.example.json to config.json
+        - Consolidate to a single bat file that asks questions, updates the config, navigates to the main directory, installs dependencies, and starts the bot
+        - Create emojis.json file to store emojis for easier use in embeds
     --/
 --/
