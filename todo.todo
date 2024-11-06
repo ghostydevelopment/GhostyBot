@@ -8,7 +8,7 @@
         - User report command (sends reports to a channel with specified user and optional screenshots)
 
         : Development Features 
-        - Database integration (fetch data from specified collections in an embed)
+        - Database integration (fetch data from specified collections in an embed, so it'll be easier to delete or add collections via cmd)
 
         : Potential Features 
         - AI Moderation
