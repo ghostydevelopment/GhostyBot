@@ -3,34 +3,34 @@ import Command from "../../../base/classes/Command";
 import CustomClient from "../../../base/classes/CustomClient";
 import Category from "../../../base/enums/Category";
 
-export default class Archieve extends Command {
+export default class archive extends Command {
   constructor(client: CustomClient) {
     super(client, {
-      name: "archieve",
-      description: "Manage archieve for channels in the server",
+      name: "archive",
+      description: "Manage archive for channels in the server",
       category: Category.Administrator,
       default_member_permissions: PermissionFlagsBits.Administrator,
       options: [
         {
           name: "add",
-          description: "Add a channel to the archieve",
+          description: "Add a channel to the archive",
           type: ApplicationCommandOptionType.Subcommand,
           options: [
             {
               name: "target",
-              description: "The channel to add to the archieve",
+              description: "The channel to add to the archive",
               type: ApplicationCommandOptionType.Channel,
               required: true,
             },
             {
               name: "reason",
-              description: "The reason for adding the channel to the archieve",
+              description: "The reason for adding the channel to the archive",
               type: ApplicationCommandOptionType.String,
               required: false,
             },
             {
               name: "silent",
-              description: "Whether to silently add the channel to the archieve",
+              description: "Whether to silently add the channel to the archive",
               type: ApplicationCommandOptionType.Boolean,
               required: false,
             },

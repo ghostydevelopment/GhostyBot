@@ -5,15 +5,16 @@ import {
   CategoryChannel,
   TextChannel,
   ChannelType,
+  PermissionFlagsBits,
 } from "discord.js";
 import CustomClient from "../../../base/classes/CustomClient";
 import SubCommand from "../../../base/classes/Subcommand";
 import GuildConfig from "../../../base/schemas/GuildConfig";
 
-export default class ArchieveAdd extends SubCommand {
+export default class ArchiveAdd extends SubCommand {
   constructor(client: CustomClient) {
     super(client, {
-      name: "archieve.add",
+      name: "archive.add",
     });
   }
 
@@ -29,7 +30,7 @@ export default class ArchieveAdd extends SubCommand {
       return interaction.reply({
         embeds: [
           errorEmbed.setDescription(
-            "❌ | Please provide a valid channel to archieve"
+            "❌ | Please provide a valid channel to archive"
           ),
         ],
         ephemeral: true,
@@ -49,30 +50,36 @@ export default class ArchieveAdd extends SubCommand {
 
     try {
       // Rename the channel
-      await target.setName(`Archieved-${target.name}`, reason);
+      await target.setName(`Archived-${target.name}`, reason);
 
-      // Find or create the "Archieved" category
-      let archieveCategory = guild.channels.cache.find(
+      // Edit channel permissions to prevent everyone from sending messages
+      const everyoneRole = guild.roles.everyone;
+      await target.permissionOverwrites.edit(everyoneRole, {
+        SendMessages: false,
+      });
+
+      // Find or create the "Archived" category
+      let archiveCategory = guild.channels.cache.find(
         (channel) =>
-          channel.type === ChannelType.GuildCategory && channel.name === "Archieved"
+          channel.type === ChannelType.GuildCategory && channel.name === "Archived"
       ) as CategoryChannel;
 
-      if (!archieveCategory) {
-        archieveCategory = (await guild.channels.create({
-          name: "Archieved",
+      if (!archiveCategory) {
+        archiveCategory = (await guild.channels.create({
+          name: "Archived",
           type: ChannelType.GuildCategory,
           reason,
         })) as CategoryChannel;
       }
 
-      // Move the channel to the "Archieved" category
-      await target.setParent(archieveCategory.id, { reason });
+      // Move the channel to the "Archived" category
+      await target.setParent(archiveCategory.id, { reason });
 
       await interaction.editReply({
         embeds: [
           new EmbedBuilder()
             .setColor("Green")
-            .setDescription(`✅ | Archieved channel ${target.name}`),
+            .setDescription(`✅ | Archived channel ${target.name}`),
         ],
       });
 
@@ -83,7 +90,7 @@ export default class ArchieveAdd extends SubCommand {
             embeds: [
               new EmbedBuilder()
                 .setColor("Green")
-                .setAuthor({ name: "✅ | Channel Archieved" })
+                .setAuthor({ name: "✅ | Channel Archived" })
                 .setDescription(
                   `
                   **Channel:** ${target.name}
@@ -110,7 +117,7 @@ export default class ArchieveAdd extends SubCommand {
                 embeds: [
                   new EmbedBuilder()
                     .setColor("Green")
-                    .setAuthor({ name: "✅ | Channel Archieved" })
+                    .setAuthor({ name: "✅ | Channel Archived" })
                     .setDescription(
                       `
                       **Channel:** ${target.name}
@@ -120,7 +127,7 @@ export default class ArchieveAdd extends SubCommand {
                     .setTimestamp()
                     .setFooter({
                       text: `Actioned by ${interaction.user.tag} - ${interaction.user.id}`,
-                                           iconURL: interaction.user.displayAvatarURL({ size: 64 }),
+                      iconURL: interaction.user.displayAvatarURL({ size: 64 }),
                     }),
                 ],
               });
@@ -133,7 +140,7 @@ export default class ArchieveAdd extends SubCommand {
       return interaction.editReply({
         embeds: [
           errorEmbed.setDescription(
-            `❌ | An error occurred while archieving the channel: ${error}`
+            `❌ | An error occurred while archiving the channel: ${error}`
           ),
         ],
       });
