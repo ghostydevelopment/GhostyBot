@@ -26,6 +26,7 @@ export default class Ready extends Event {
     const presence = {
       activities: [
         {
+          //name: `Were verified now!`,
           name: `Protecting ${serverCount} servers`,
           type: ActivityType.Custom,
         },
