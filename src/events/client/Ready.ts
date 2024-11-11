@@ -23,18 +23,31 @@ export default class Ready extends Event {
     console.log(`${this.client.user?.tag} is now online.`);
 
     const serverCount = this.client.guilds.cache.size;
-    const presence = {
-      activities: [
-        {
-          //name: `Were verified now!`,
-          name: `Protecting ${serverCount} servers`,
-          type: ActivityType.Custom,
-        },
-      ],
-      status: "online" as PresenceStatusData,
+    const statuses = [
+      {
+        name: `Protecting ${serverCount} servers`,
+        type: ActivityType.Custom,
+      },
+      {
+        name: "use /inviteme to support the bot!",
+        type: ActivityType.Custom,
+      },
+    ];
+
+    let currentStatusIndex = 0;
+
+    const updatePresence = () => {
+      const presence = {
+        activities: [statuses[currentStatusIndex]],
+        status: "online" as PresenceStatusData,
+      };
+
+      this.client.user?.setPresence(presence);
+      currentStatusIndex = (currentStatusIndex + 1) % statuses.length;
     };
 
-    await this.client.user?.setPresence(presence);
+    updatePresence();
+    setInterval(updatePresence, 5 * 60 * 1000); // Rotate every 5 minutes
 
     const clientId = this.client.developmentMode
       ? this.client.config.devDiscordClientID
