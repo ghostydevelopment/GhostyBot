@@ -33,7 +33,6 @@
         - Enhance logging functionality 
         - Resolve maintenance command issues with status updates
         - Fix save message functionality & command
-        - Have a optional subcommand for stealemoji so they can steal multiple at once
         - Do a haul on all of the embeds to make them cleaner, support buttons, string menus, and modals
         - Make the backup commands more easy to use and more organized within the embeds
 
@@ -41,6 +40,7 @@
         - Fix issues with the run.bat file 
         - Implement Terms of Service (ToS) function for new users: display ToS embed upon bot joining a guild, with an accept button. If a user attempts to use a command without accepting ToS, repost the ToS embed for acceptance.
         - Create emojis.json file to store emojis for easier use in embeds
+        - Shard the bot
 
         : Dashboard Enhancements 
         - Create a login page on the main website that redirects to the dashboard
